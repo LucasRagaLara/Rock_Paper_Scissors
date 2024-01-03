@@ -25,6 +25,12 @@
         <h3 class="you_picked">You picked</h3>
         <h3 class="the_machine_picked">The Computer picked</h3>
         <div class="images_game game-picked">
+            <div class="circle_min circle_min1_left animate__animated" :class="fade_in" v-show="show_left">
+            </div>
+            <div class="circle_min circle_min2_left animate__animated" :class="fade_in" v-show="show_left">
+            </div>
+            <div class="circle_min circle_min3_left animate__animated" :class="fade_in" v-show="show_left">
+            </div>
             <div :class="userSuperiorClass" class="game1_user">
                 <div :class="`${userInteriorClass}-interior`">
                     <img :src="userImage" alt="user choice">
@@ -32,6 +38,12 @@
             </div>
         </div>
         <div class="images_game game-picked">
+            <div class="circle_min circle_min1_right animate__animated" :class="fade_in" v-show="show_right">
+            </div>
+            <div class="circle_min circle_min2_right animate__animated" :class="fade_in" v-show="show_right">
+            </div>
+            <div class="circle_min circle_min3_right animate__animated" :class="fade_in" v-show="show_right">
+            </div>
             <div :class="machineSuperiorClass" class="game1_machine">
                 <div :class="`${machineInteriorClass}-interior`">
                     <img :src="machineImage">
@@ -48,6 +60,10 @@ export default {
             user_select: '',
             machine_select: '',
             zoom_in_out: '',
+            cont: 0,
+            fade_in: '',
+            show_right: false,
+            show_left: false,
             userSuperiorClass: "",
             userInteriorClass: "",
             userImage: "",
@@ -159,31 +175,25 @@ export default {
         winnerIs(){
             let select_user = this.select_user
             let machine_user = this.select_machine
-            if (select_user == "paper"){
-                if (machine_user == "rock"){
-                    console.log("winner is USER")
-                }else if (machine_user == "scissors"){
-                    console.log("Winner is MACHINE")
-                }else {
-                    console.log("EMPATE")
-                }
-            } else if(select_user == "rock"){
-                if (machine_user == "scissors"){
-                    console.log("winner is USER")
-                }else if (machine_user == "paper"){
-                    console.log("Winner is MACHINE")
-                }else {
-                    console.log("EMPATE")
-                }
-            }else if(select_user == "scissors"){
-                if (machine_user == "paper"){
-                    console.log("winner is USER")
-                }else if (machine_user == "rock"){
-                    console.log("Winner is MACHINE")
-                }else {
-                    console.log("EMPATE")
-                }
+            let result;
+            if (select_user === machine_user) {
+                result = "EMPATE";
+            } else if (
+                (select_user === "paper" && machine_user === "rock") ||
+                (select_user === "rock" && machine_user === "scissors") ||
+                (select_user === "scissors" && machine_user === "paper")
+            ) {
+                result = "Winner is USER";
+                this.cont += 1;
+                this.fade_in = "animate__fadeIn";
+                this.show_left = true;
+                this.$emit('update_number', this.cont);
+            } else {
+                result = "Winner is MACHINE";
+                this.fade_in = "animate__fadeIn"
+                this.show_right = true;
             }
+            console.log(result);
         }
     }
 }
@@ -191,6 +201,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="sass">
+
 #picked
     display: none
     align-items: center
@@ -206,6 +217,44 @@ export default {
         top: 9.375rem
         justify-content: center
         letter-spacing: 0.1rem
+    .circle_min
+        border: none
+        border-radius: 100%
+        width: 225px
+        height: 225px
+        position: absolute
+    .circle_min1_left
+        background-color: hsla(217, 16%, 45%, 0.14)
+        top: -0.6rem !important
+        left: -8.8rem !important
+    .circle_min2_left
+        background-color: hsla(217, 16%, 45%, 0.10)
+        width: 300px
+        height: 300px
+        top: -3.1rem !important
+        left: -11.2rem !important
+    .circle_min3_left
+        background-color: hsla(217, 16%, 45%, 0.06)
+        width: 375px
+        height: 375px
+        top: -5.3rem !important
+        left: -13.7rem !important
+    .circle_min1_right
+        background-color: hsla(217, 16%, 45%, 0.14)
+        top: -0.6rem !important
+        left: 21.7rem !important
+    .circle_min2_right
+        background-color: hsla(217, 16%, 45%, 0.10)
+        width: 300px
+        height: 300px
+        top: -2.9rem !important
+        left: 19.3rem !important
+    .circle_min3_right
+        background-color: hsla(217, 16%, 45%, 0.06)
+        width: 375px
+        height: 375px
+        top: -5.2rem !important
+        left: 17rem !important
     .the_machine_picked
         right: 18.75rem
     .you_picked

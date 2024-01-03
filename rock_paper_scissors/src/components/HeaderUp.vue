@@ -9,7 +9,7 @@
             </ul>
             <div class="box_score">
                 <h5>SCORE</h5>
-                <span>0</span>
+                <span> {{ cont }}</span>
             </div>
         </div>
     </header>
@@ -17,10 +17,15 @@
 
 <script>
 export default {
-    name: 'HeaderUp'
+    name: 'HeaderUp',
+    props: {
+        cont: {
+            type: Number,
+            required: true
+        }
+    }
 }
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="sass">
 #menu
