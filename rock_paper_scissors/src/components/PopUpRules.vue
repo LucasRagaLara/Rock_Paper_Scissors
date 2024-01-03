@@ -1,6 +1,6 @@
 <template>
     <div class="main_popup">
-        <div id="PopUp" :class="zoom_in_out" class="animate__animated">
+        <div id="PopUp" ref="popup" :class="zoom_in_out" class="animate__animated" @animationend="finaltransition">
             <div class="header_rules">
                 <h1>RULES</h1>
                 <div class="box_image">
@@ -11,9 +11,9 @@
                 <img src="../assets/image-rules.svg">
             </div>
         </div>
-        <div class="boton_foot">
-            <button @click="OpenClosePopUp">RULES</button>
-        </div>
+    </div>
+    <div class="boton_foot">
+        <button @click="OpenClosePopUp">RULES</button>
     </div>
 </template>
 <script>
@@ -29,10 +29,20 @@ export default {
             this.zoom_in_out = 'animate__zoomOut';
         },
         OpenClosePopUp(){
-            if (this.zoom_in_out == 'animate__zoomIn'){
+            let popup = this.$refs.popup;
+            if (this.zoom_in_out === 'animate__zoomIn'){
                 this.zoom_in_out = 'animate__zoomOut';
-            }else if (this.zoom_in_out == 'animate__zoomOut'){
+            }else if (this.zoom_in_out === 'animate__zoomOut'){
+                popup.style.display = 'flex';
                 this.zoom_in_out = 'animate__zoomIn'
+            }
+        },
+        finaltransition(){
+            let popup = this.$refs.popup;
+            if (this.zoom_in_out === 'animate__zoomOut'){
+                popup.style.display = 'none';
+            }else{
+                popup.style.display = 'flex';
             }
         }
     }
@@ -42,11 +52,13 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="sass">
 .main_popup
+    position: absolute
+    top: 20%
     display: flex
-    flex-direction: column
-    width: 100%
+    z-index: 5
     align-items: center
     justify-content: center
+    width: 100%
 #PopUp
     background-color: #fff
     display: flex
@@ -83,12 +95,13 @@ export default {
         img
             width: 65%
 .boton_foot
-    display: flex
-    align-items: end 
-    justify-content: end
     position: absolute
-    bottom: -150px
+    bottom: 30px
     right: 50px
+    transition: ease-in-out
+    transition-duration: 0.2s
+    &:hover
+        bottom: 33px
     button
         font-size: 18px
         color: #fff
@@ -98,5 +111,8 @@ export default {
         width: 140px
         height: 40px
         border-radius: 10px
+        cursor: pointer
         background: none
+
+
 </style>

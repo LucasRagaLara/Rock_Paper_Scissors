@@ -3,12 +3,8 @@
     <header class="menu">
       <HeaderUp></HeaderUp>
     </header>
-    <section class="game">
       <ContainGame></ContainGame>
-    </section>
-    <div class="pop_up">
       <PopUpRules/>
-    </div>
   </div>
 </template>
 
@@ -36,17 +32,4 @@ export default {
     background: radial-gradient(hsl(214, 47%, 23%), hsl(237, 49%, 15%))
     background-size: cover
     min-height: 100vh
-  .game
-    margin-top: 2%
-    display: flex
-    align-items: center
-    justify-content: center
-  .pop_up
-    position: absolute
-    top: 20%
-    display: flex
-    z-index: 5
-    align-items: center
-    justify-content: center
-    width: 100%
 </style>
