@@ -1,9 +1,9 @@
 <template>
   <div id="App">
     <header class="menu">
-      <HeaderUp></HeaderUp>
+      <HeaderUp :cont="cont"></HeaderUp>
     </header>
-      <ContainGame></ContainGame>
+      <ContainGame @update_number="update_count"></ContainGame>
       <PopUpRules/>
   </div>
 </template>
@@ -14,6 +14,17 @@ import HeaderUp from './components/HeaderUp.vue';
 import ContainGame from './components/ContainGame.vue';
 export default {
   name: 'App',
+  data() {
+    return {
+    cont: 0
+    };
+  },
+  methods: {
+    update_count(cont) {
+        console.log('Evento update_number recibido con valor:', cont);
+        this.cont = cont;
+    }
+  },
   components: {
     PopUpRules,
     HeaderUp,

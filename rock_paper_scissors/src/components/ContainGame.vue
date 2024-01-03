@@ -37,6 +37,12 @@
                 </div>
             </div>
         </div>
+        <div class="play_again animate__animated" v-show="show_play_again" :class="zoom_in_down">
+            <div class="winner_is">
+                <h1>{{ winner_lose }}</h1>
+                <button @click="play_again">PLAY AGAIN</button>
+            </div>
+        </div>
         <div class="images_game game-picked">
             <div class="circle_min circle_min1_right animate__animated" :class="fade_in" v-show="show_right">
             </div>
@@ -61,9 +67,12 @@ export default {
             machine_select: '',
             zoom_in_out: '',
             cont: 0,
+            winner_lose: '',
             fade_in: '',
+            zoom_in_down: '',
             show_right: false,
             show_left: false,
+            show_play_again: false,
             userSuperiorClass: "",
             userInteriorClass: "",
             userImage: "",
@@ -173,11 +182,12 @@ export default {
             }
         },
         winnerIs(){
-            let select_user = this.select_user
-            let machine_user = this.select_machine
+            let select_user = this.select_user;
+            let machine_user = this.select_machine;
             let result;
             if (select_user === machine_user) {
                 result = "EMPATE";
+                this.winner_lose = "IT'S A DRAW";
             } else if (
                 (select_user === "paper" && machine_user === "rock") ||
                 (select_user === "rock" && machine_user === "scissors") ||
@@ -187,13 +197,41 @@ export default {
                 this.cont += 1;
                 this.fade_in = "animate__fadeIn";
                 this.show_left = true;
-                this.$emit('update_number', this.cont);
+                console.log('Valor de cont antes de emitir el evento:', this.cont);
+                this.winner_lose = "YOU WIN";
             } else {
                 result = "Winner is MACHINE";
-                this.fade_in = "animate__fadeIn"
+                this.fade_in = "animate__fadeIn";
                 this.show_right = true;
+                this.winner_lose = "YOU LOSE";
             }
             console.log(result);
+            setTimeout(()=> {
+                this.show_play_again = true
+                this.zoom_in_down = 'animate__zoomInDown';
+            }, 2000)
+            this.$emit('update_number', this.cont);
+        },
+        play_again(){
+            let showpicks = this.$refs.pick;
+            showpicks.style.display = 'none';
+            let OpenCloseNav = this.$refs.OpenCloseNav;
+            OpenCloseNav.style.display = 'flex';
+            this.user_select = '';
+            this.machine_select = '';
+            this.zoom_in_out = '';
+            this.winner_lose = '';
+            this.fade_in = '';
+            this.zoom_in_down = '';
+            this.show_right = false;
+            this.show_left = false;
+            this.show_play_again = false;
+            this.userSuperiorClass = "";
+            this.userInteriorClass = "";
+            this.userImage = "";
+            this.machineSuperiorClass = "";
+            this.machineInteriorClass = "";
+            this.machineImage = "";
         }
     }
 }
@@ -282,6 +320,37 @@ export default {
     .game1_machine
         top: 1.75rem !important
         left: 24rem !important
+.play_again
+    display: flex
+    align-items: center
+    justify-content: center
+    flex-direction: column
+    position: absolute
+    top: 20rem
+    .winner_is
+        display: flex
+        align-items: center
+        justify-content: center
+        flex-direction: column
+        h1
+            font-size: 2.4rem
+            letter-spacing: 0.1rem
+            margin-bottom: 2%
+        button
+            margin-top: 5%
+            border: none
+            background: #fff
+            color: hsl(229, 25%, 31%)
+            width: 8.5rem
+            height: 2rem
+            border-radius: 5px
+            font-weight: 600
+            letter-spacing: 0.1rem
+            transition: ease-in-out
+            transition-duration: 0.2s
+            cursor: pointer
+            &:hover
+                transform: scale(1.1)
 .box_game
     display: flex
     align-items: center

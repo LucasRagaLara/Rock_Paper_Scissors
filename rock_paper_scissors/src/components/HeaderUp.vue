@@ -8,7 +8,7 @@
                 <!-- <img src="../src/assets/logo.svg" alt=""> -->
             </ul>
             <div class="box_score">
-                <h5>SCORE</h5>
+                <h5 @click="mostrar">SCORE</h5>
                 <span> {{ cont }}</span>
             </div>
         </div>
@@ -22,6 +22,11 @@ export default {
         cont: {
             type: Number,
             required: true
+        }
+    },
+    methods: {
+        mostrar(){
+            console.log('Valor de cont en ContainGame:', this.cont);
         }
     }
 }
